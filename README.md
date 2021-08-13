@@ -1,4 +1,4 @@
-A library for using the Windows GUI easily.
+A library for using the Windows GUI easily from a C++ program.
 
 Developed under Visual Studio 2019 (2022 Preview) and Windows 10. Theoretically will work with Vista and later Windows versions.
 The aim of the project is personal usage. You may copy it, use it.
