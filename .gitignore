@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/EasyWindows
+/Debug
+/EasyWindows/Debug
+/EasyWindows/EasyWindows.vcxproj.filters
+/EasyWindows/EasyWindows.vcxproj.user
+/TestEasyWindows/Debug
+/TestEasyWindows/TestEasyWindows.vcxproj.filters
+/TestEasyWindows/TestEasyWindows.vcxproj.user
