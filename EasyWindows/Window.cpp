@@ -3,6 +3,7 @@
 #include <map>
 #include <iostream>
 #include "Button.h"
+#include "ListBox.h"
 
 std::set<std::wstring> registered_classes;
 
@@ -20,27 +21,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     Window* win = windows.find(hWnd) == windows.end() ? nullptr : windows[hWnd];
     if (!win) return DefWindowProc(hWnd, message, wParam, lParam);
+    bool handled = false;
     switch (message)
     {
     case WM_COMMAND: {
         int wmId = LOWORD(wParam);
         int wmEvent = HIWORD(wParam);
         Control* aktControl = Control::get_control_by_id(wmId);
-        if (aktControl){
-            // Parse the menu selections:
+        Button* btn = dynamic_cast<Button*>(aktControl);
+        ListBox* lst = dynamic_cast<ListBox*>(aktControl);
+        if (btn) {
             switch (wmEvent)
             {
             case BN_CLICKED:
-            {
-                Button* btn = dynamic_cast<Button*>(aktControl);
                 btn->clicked.Invoke(*btn);
-            }
+                handled = true;
                 break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
             }
-        }else{
-            return DefWindowProc(hWnd, message, wParam, lParam);
+        }
+        else if (lst) {
+            switch (wmEvent)
+            {
+            case LBN_DBLCLK:
+                handled = true;
+                lst->item_dbl_clicked.Invoke(*lst, lst->get_caret_item());
+                break;
+            case LBN_SELCHANGE:
+            case LBN_SELCANCEL:
+                handled = true;
+                lst->selection_changed.Invoke(*lst);
+                break;
+            }
         }
     }
     case WM_PAINT:
@@ -49,12 +60,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         HDC hdc = BeginPaint(hWnd, &ps);
         win->paint.Invoke(win, hdc, ps);
         EndPaint(hWnd, &ps);
+        handled = true;
     }
     break;
     case WM_DESTROY:
         PostQuitMessage(0);
+        handled = true;
         break;
-    default:
+    }
+    if (!handled) {
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;

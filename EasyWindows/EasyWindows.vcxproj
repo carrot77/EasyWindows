@@ -25,6 +25,7 @@
     <ClCompile Include="Control.cpp" />
     <ClCompile Include="GroupBox.cpp" />
     <ClCompile Include="Label.cpp" />
+    <ClCompile Include="ListBox.cpp" />
     <ClCompile Include="RadioButton.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="EasyWindows.h" />
     <ClInclude Include="GroupBox.h" />
     <ClInclude Include="Label.h" />
+    <ClInclude Include="ListBox.h" />
     <ClInclude Include="RadioButton.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

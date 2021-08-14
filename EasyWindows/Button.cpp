@@ -1,8 +1,9 @@
 #include "Button.h"
 #include <windowsx.h>
+#include <CommCtrl.h>
 
 Button::Button() : enabled(true) {
-	class_name = L"button";
+	class_name = WC_BUTTON;
 	window_style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON;
 }
 

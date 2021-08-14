@@ -37,6 +37,12 @@ int main()
 		add_control(std::move(RadioButton().set_rectangle({ 110,20,200,40 }).set_title(L"RB2"))).
 		add_control(std::move(RadioButton().set_rectangle({ 10,50,100,70 }).set_title(L"RB3"))).
 		add_control(std::move(RadioButton().set_rectangle({ 110,50,200,70 }).set_title(L"RB4")));
+	ListBox lb(ListBox::SelectionMode::MultipleSelect, false);
+	lb.set_location({ 230,140 }).set_size({ 210, 120 });
+	lb.add_string(L"elso").add_string(L"masodik").add_string(L"harmadik");
+	lb.item_dbl_clicked += [&window](ListBox&, std::wstring str) {
+		window.set_title(str);
+	};
 	window.
 		add_control(std::move(Label().set_title(L"Label").set_rectangle({ 10,10,110, 60 }))).
 		add_control(button).
@@ -46,6 +52,7 @@ int main()
 			set_location({10, 70}).
 			set_size({100, 60}))).
 		add_control(std::move(gb)).
+		add_control(lb).
 		add_control(std::move(RadioButton().set_rectangle({ 340,10,385,30 }).set_title(L"RB1"))).
 		add_control(std::move(RadioButton().set_rectangle({ 390,10,450,30 }).set_title(L"RB2"))).
 		add_control(std::move(RadioButton().set_rectangle({ 340,40,385,60 }).set_title(L"RB3"))).
