@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Button.h"
 #include "ListBox.h"
+#include "EditBox.h"
 
 std::set<std::wstring> registered_classes;
 
@@ -30,6 +31,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         Control* aktControl = Control::get_control_by_id(wmId);
         Button* btn = dynamic_cast<Button*>(aktControl);
         ListBox* lst = dynamic_cast<ListBox*>(aktControl);
+        EditBox* edt = dynamic_cast<EditBox*>(aktControl);
         if (btn) {
             switch (wmEvent)
             {
@@ -50,6 +52,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case LBN_SELCANCEL:
                 handled = true;
                 lst->selection_changed.Invoke(*lst);
+                break;
+            }
+        }
+        else if (edt) {
+            switch (wmEvent)
+            {
+            case EN_CHANGE:
+                handled = true;
+                edt->text_changed.Invoke(*edt, edt->get_text());
+                break;
+            default:
                 break;
             }
         }

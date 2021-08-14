@@ -15,6 +15,7 @@ int main()
 {
 	Window window;
 	window.set_title(L"Hello cicus");
+	window.set_size({800,600});
 	Button button;
 	button.set_title(L"Button").set_rectangle({ 120, 10, 220, 60 });
 	CheckBox button2;
@@ -43,6 +44,11 @@ int main()
 	lb.item_dbl_clicked += [&window](ListBox&, std::wstring str) {
 		window.set_title(str);
 	};
+	EditBox eb(false, true, false);
+	eb.set_text(L"test\r\ntext").set_location({460, 10}).set_size({120, 100});
+	eb.text_changed += [&window](EditBox&, std::wstring str) {
+		window.set_title(str);
+	};
 	window.
 		add_control(std::move(Label().set_title(L"Label").set_rectangle({ 10,10,110, 60 }))).
 		add_control(button).
@@ -53,6 +59,7 @@ int main()
 			set_size({100, 60}))).
 		add_control(std::move(gb)).
 		add_control(lb).
+		add_control(eb).
 		add_control(std::move(RadioButton().set_rectangle({ 340,10,385,30 }).set_title(L"RB1"))).
 		add_control(std::move(RadioButton().set_rectangle({ 390,10,450,30 }).set_title(L"RB2"))).
 		add_control(std::move(RadioButton().set_rectangle({ 340,40,385,60 }).set_title(L"RB3"))).
