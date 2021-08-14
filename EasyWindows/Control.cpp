@@ -17,6 +17,31 @@ Control::Control(unsigned id) : id(id), parent(nullptr), hwnd(nullptr), window_s
 	x = y = width = height = CW_USEDEFAULT;
 }
 
+Control::Control(Control&& control) noexcept :
+	id(control.id), 
+	parent(control.parent),
+	class_name(control.class_name),
+	window_style(control.window_style),
+	controls(std::move(control.controls)),
+	paint(std::move(control.paint)),
+	hwnd(control.hwnd),
+	title(control.title),
+	x(control.x),
+	y(control.y),
+	width(control.width),
+	height(control.height)
+{
+	if (parent) parent->add_control(*this);
+	if (std::find(tmp_controls.begin(), tmp_controls.end(), &control) != tmp_controls.end()) {
+		tmp_controls.push_back(this);
+	}
+	for (Control* c : controls) {
+		c->parent = this;
+	}
+	control.hwnd = nullptr;
+	control.id = -1;
+}
+
 void Control::create() {
 	if (hwnd) return;
 	if (id) {
@@ -62,6 +87,7 @@ Control::~Control() {
 	if (parent) parent->remove_control(*this);
 	all_controls.erase(id);
 	tmp_controls.remove(this);
+	if (hwnd) DestroyWindow(hwnd);
 }
 
 const std::list<Control*>& Control::get_controls() const {

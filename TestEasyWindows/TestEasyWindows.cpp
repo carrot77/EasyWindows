@@ -45,7 +45,7 @@ int main()
 			set_title(L"Kiscica").
 			set_location({10, 70}).
 			set_size({100, 60}))).
-		add_control(gb).
+		add_control(std::move(gb)).
 		add_control(std::move(RadioButton().set_rectangle({ 340,10,385,30 }).set_title(L"RB1"))).
 		add_control(std::move(RadioButton().set_rectangle({ 390,10,450,30 }).set_title(L"RB2"))).
 		add_control(std::move(RadioButton().set_rectangle({ 340,40,385,60 }).set_title(L"RB3"))).

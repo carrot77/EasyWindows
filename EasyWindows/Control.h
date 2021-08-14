@@ -24,6 +24,7 @@ public:
 		registrations.push_back(func);
 		return *this;
 	}
+	void clear() { registrations.clear(); }
 	EventHandler& operator -=(std::function<void(Params...)> func) {
 		registrations.remove(func);
 		return *this;
@@ -38,11 +39,11 @@ public:
 class Control
 {
 	static unsigned id_counter;
+	unsigned id;
 protected:
-	const unsigned id;
 	Control* parent;
 	Control();
-	Control(Control&&) noexcept = default;
+	Control(Control&&) noexcept;
 	Control(unsigned id);
 	virtual ~Control();
 	std::wstring class_name;
