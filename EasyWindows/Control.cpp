@@ -38,18 +38,19 @@ void Control::create() {
 	}
 }
 
-void Control::add_control(Control& control) {
+Control &Control::add_control(Control& control) {
 	controls.push_back(&control);
 	control.parent = this;
 	if (hwnd) {
 		control.create();
 	}
+	return *this;
 }
 
-void Control::add_control(Control&& control) {
+Control &Control::add_control(Control&& control) {
 	Control* tmp = control.deep_move(std::move(control));
 	tmp_controls.push_back(tmp);
-	add_control(*tmp);
+	return add_control(*tmp);
 }
 
 void Control::remove_control(Control& control) {
@@ -168,4 +169,8 @@ const HWND& Control::get_hwnd() const {
 Control* Control::get_control_by_id(unsigned id) {
 	if (all_controls.find(id) == all_controls.end()) return nullptr;
 	return all_controls[id];
+}
+
+Control* Control::deep_move(Control&& control) noexcept {
+	return new Control(std::move(control));
 }

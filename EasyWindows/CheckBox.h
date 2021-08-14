@@ -5,7 +5,6 @@ struct CheckBox :
     public Button
 {
     CheckBox();
-    EventHandler<CheckBox&> clicked;
     bool is_checked() const;
     CheckBox& set_checked(bool checked);
 protected:

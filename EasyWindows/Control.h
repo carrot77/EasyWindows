@@ -54,7 +54,7 @@ protected:
 	std::wstring title;
 	int32_t x, y, width, height;
 	static Control* get_control_by_id(unsigned id);
-	virtual Control* deep_move(Control &&control) noexcept = 0;
+	virtual Control* deep_move(Control &&control) noexcept;
 public:
 	const unsigned& get_id() const;
 	const std::list<Control*> &get_controls() const;
@@ -70,8 +70,8 @@ public:
 	const HWND& get_hwnd() const;
 
 
-	void add_control(Control& control);
-	void add_control(Control&& control);
+	Control& add_control(Control& control);
+	Control& add_control(Control&& control);
 	void remove_control(Control& control);
 };
 

@@ -26,18 +26,30 @@ int main()
 		button2.set_enabled(true);
 	};
 	button2.set_enabled(false).set_title(L"CheckBox").set_rectangle({ 230, 10, 330, 60 });
-	button2.clicked += [](CheckBox& btn) {
-		btn.set_title(btn.is_checked() ? L"Checked" : L"Unchecked");
+	button2.clicked += [&button2](Button&) {
+		button2.set_title(button2.is_checked() ? L"Checked" : L"Unchecked");
 	};
-	window.add_control(std::move(Label().set_title(L"Label").set_rectangle({ 10,10,110, 60 })));
-	window.add_control(button);
-	window.add_control(button2);
 	Button move_test;
 	move_test.clicked += [](Button& btn) {btn.set_title(L"Miau"); };
-	window.add_control(move_test.
-		set_title(L"Kiscica").
-		set_location({10, 70}).
-		set_size({100, 60}));
+	GroupBox gb;
+	gb.set_location({ 10,140 }).set_size({ 210, 120 }).set_title(L"Group1");
+	gb.add_control(std::move(RadioButton().set_rectangle({ 10,20,100,40 }).set_title(L"RB1"))).
+		add_control(std::move(RadioButton().set_rectangle({ 110,20,200,40 }).set_title(L"RB2"))).
+		add_control(std::move(RadioButton().set_rectangle({ 10,50,100,70 }).set_title(L"RB3"))).
+		add_control(std::move(RadioButton().set_rectangle({ 110,50,200,70 }).set_title(L"RB4")));
+	window.
+		add_control(std::move(Label().set_title(L"Label").set_rectangle({ 10,10,110, 60 }))).
+		add_control(button).
+		add_control(button2).
+		add_control(std::move(move_test.
+			set_title(L"Kiscica").
+			set_location({10, 70}).
+			set_size({100, 60}))).
+		add_control(gb).
+		add_control(std::move(RadioButton().set_rectangle({ 340,10,385,30 }).set_title(L"RB1"))).
+		add_control(std::move(RadioButton().set_rectangle({ 390,10,450,30 }).set_title(L"RB2"))).
+		add_control(std::move(RadioButton().set_rectangle({ 340,40,385,60 }).set_title(L"RB3"))).
+		add_control(std::move(RadioButton().set_rectangle({ 390,40,450,60 }).set_title(L"RB4")));
 	window.show();
 	window.run();
 }

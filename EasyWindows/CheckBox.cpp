@@ -3,9 +3,6 @@
 
 CheckBox::CheckBox() : checked(false) {
 	window_style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX;
-	Button::clicked += [this](Button& btn) {
-		clicked.Invoke(*this);
-	};
 }
 
 bool CheckBox::is_checked() const {

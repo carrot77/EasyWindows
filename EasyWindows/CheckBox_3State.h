@@ -5,7 +5,6 @@ struct CheckBox_3State :
 {
     enum class CheckState{Checked, Indeterminate, Unchecked};
     CheckBox_3State();
-    EventHandler<CheckBox_3State&> clicked;
     CheckState checked_state() const;
     CheckBox_3State& set_checked_state(CheckState);
 protected:

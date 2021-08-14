@@ -3,9 +3,6 @@
 
 CheckBox_3State::CheckBox_3State() : checked(CheckState::Unchecked) {
 	window_style = WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_AUTO3STATE;
-	Button::clicked += [this](Button& btn) {
-		clicked.Invoke(*this);
-	};
 }
 
 CheckBox_3State::CheckState CheckBox_3State::checked_state() const {
