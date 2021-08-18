@@ -45,7 +45,7 @@ int main()
 		window.set_title(str);
 	};
 	EditBox eb(false, true, false);
-	eb.set_text(L"test\r\ntext").set_location({460, 10}).set_size({120, 100});
+	eb.set_text(L"test\r\ntext").add_anchor(Control::Anchor_Right).set_location({460, 10}).set_size({120, 100});
 	eb.text_changed += [&window](EditBox&, std::wstring str) {
 		window.set_title(str);
 	};

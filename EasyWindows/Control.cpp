@@ -9,11 +9,17 @@ unsigned Control::id_counter = 0;
 std::map<unsigned, Control*> all_controls;
 std::list<Control*> tmp_controls;
 
-Control::Control() : id(++id_counter), parent(nullptr), hwnd(nullptr), window_style(0){
+Control::Control() : 
+	id(++id_counter), parent(nullptr), hwnd(nullptr), window_style(0),
+	last_known_size({0,0}),
+	anchor(static_cast<Anchor>(Anchor::Anchor_Top | Anchor::Anchor_Left)){
 	x = y = width = height = CW_USEDEFAULT;
 }
 
-Control::Control(unsigned id) : id(id), parent(nullptr), hwnd(nullptr), window_style(0) {
+Control::Control(unsigned id) : 
+	id(id), parent(nullptr), hwnd(nullptr), window_style(0),
+	last_known_size({ 0,0 }),
+	anchor(static_cast<Anchor>(Anchor::Anchor_Top | Anchor::Anchor_Left)) {
 	x = y = width = height = CW_USEDEFAULT;
 }
 
@@ -29,7 +35,9 @@ Control::Control(Control&& control) noexcept :
 	x(control.x),
 	y(control.y),
 	width(control.width),
-	height(control.height)
+	height(control.height),
+	last_known_size(control.last_known_size),
+	anchor(control.anchor)
 {
 	if (parent) parent->add_control(*this);
 	if (std::find(tmp_controls.begin(), tmp_controls.end(), &control) != tmp_controls.end()) {
@@ -58,6 +66,7 @@ void Control::create() {
 		GetModuleHandle(nullptr),
 		nullptr  // Additional data
 	);
+	last_known_size = get_size();
 	for (auto* c : controls) {
 		c->create();
 	}
@@ -156,6 +165,7 @@ Control& Control::set_size(const SIZE& size) {
 	height = size.cy;
 	if (hwnd) {
 		SetWindowPos(hwnd, HWND_TOP, x, y, width, height, SWP_NOMOVE| SWP_NOZORDER | SWP_SHOWWINDOW);
+		handle_size_changed(size);
 	}
 	return *this;
 }
@@ -199,4 +209,71 @@ Control* Control::get_control_by_id(unsigned id) {
 
 Control* Control::deep_move(Control&& control) noexcept {
 	return new Control(std::move(control));
+}
+
+void Control::handle_size_changed(SIZE new_size) {
+	if (!hwnd) return;
+	const bool width_changed = new_size.cx != last_known_size.cx;
+	const bool height_changed = new_size.cy |= last_known_size.cy;
+	if (!width_changed && !height_changed) return;
+	int dx = new_size.cx - last_known_size.cx;
+	int dy = new_size.cy - last_known_size.cy;
+	Anchor size_changer = static_cast<Anchor>(Anchor_Right | Anchor_Bottom);
+	for (Control* c : controls) {
+		if (c->has_anchor(size_changer)) {
+			POINT new_location = c->get_location();
+			SIZE new_size = c->get_size();
+			bool location_changed = false, size_changed = false;
+			if (c->has_anchor(Anchor_Right) && width_changed) {
+				if (c->has_anchor(Anchor_Left)) {
+					size_changed = true;
+					new_size.cx += dx;
+				}
+				else {
+					location_changed = true;
+					new_location.x += dx;
+				}
+			}
+			if (c->has_anchor(Anchor_Bottom) && height_changed) {
+				if (c->has_anchor(Anchor_Top)) {
+					size_changed = true;
+					new_size.cy += dy;
+				}
+				else {
+					location_changed = true;
+					new_location.y += dy;
+				}
+			}
+			if (location_changed) {
+				c->set_location(new_location);
+			}
+			if (size_changed) {
+				c->set_size(new_size);
+			}
+		}
+	}
+	last_known_size = new_size;
+	size_changed.Invoke(this, last_known_size);
+}
+
+Control& Control::set_anchor(Anchor anchor) {
+	this->anchor = anchor;
+	return *this;
+}
+Control::Anchor Control::get_anchor() const {
+	return anchor;
+}
+
+bool Control::has_anchor(Anchor anchor) const {
+	return (this->anchor & anchor) > 0;
+}
+
+Control& Control::add_anchor(Anchor anchor) {
+	this->anchor = static_cast<Anchor>(this->anchor | anchor);
+	return *this;
+}
+
+Control& Control::remove_anchor(Anchor) {
+	this->anchor = static_cast<Anchor>(this->anchor & (anchor ^ Anchor_All));
+	return *this;
 }

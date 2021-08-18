@@ -2,6 +2,7 @@
 #include <set>
 #include <map>
 #include <iostream>
+#include "Label.h"
 #include "Button.h"
 #include "ListBox.h"
 #include "EditBox.h"
@@ -76,6 +77,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         handled = true;
     }
     break;
+    case WM_SIZE:
+        handled = true;
+        win->handle_size_changed({LOWORD(lParam), HIWORD(lParam)});
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         handled = true;
@@ -90,6 +95,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 Window::Window(const std::wstring& class_name) : Control(0) {
     this->class_name = class_name;
     this->window_style = WS_OVERLAPPEDWINDOW;
+    dummy.set_location({ 0,0 });
+    dummy.window_style = WS_VISIBLE | WS_CHILD | SS_LEFT;
+    add_control(dummy);
+}
+
+Window::Window(Window&& window) noexcept : 
+    Control(std::move(window)), 
+    dummy(std::move(window.dummy)) 
+{
 }
 
 void Window::show(){
@@ -110,6 +124,7 @@ void Window::show(){
     create();
     windows[hwnd] = this;
     ShowWindow(hwnd, SW_NORMAL);
+    UpdateWindow(hwnd);
 }
 
 void Window::run() {
@@ -120,4 +135,9 @@ void Window::run() {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+}
+
+void Window::handle_size_changed(SIZE new_size) {
+    dummy.set_size(new_size);
+    Control::handle_size_changed(new_size);
 }

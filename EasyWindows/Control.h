@@ -40,6 +40,7 @@ class Control
 {
 	static unsigned id_counter;
 	unsigned id;
+	SIZE last_known_size;
 protected:
 	Control* parent;
 	Control();
@@ -56,11 +57,19 @@ protected:
 	int32_t x, y, width, height;
 	static Control* get_control_by_id(unsigned id);
 	virtual Control* deep_move(Control &&control) noexcept;
+	virtual void handle_size_changed(SIZE new_size);
 public:
+	enum Anchor {
+		Anchor_Top = 1,
+		Anchor_Left = Anchor_Top << 1,
+		Anchor_Bottom = Anchor_Left << 1,
+		Anchor_Right = Anchor_Bottom << 1,
+		Anchor_All = Anchor_Top | Anchor_Left | Anchor_Bottom | Anchor_Right
+	};
 	const unsigned& get_id() const;
 	const std::list<Control*> &get_controls() const;
 	const std::wstring &get_title() const;
-	Control &set_title(const std::wstring&);
+	virtual Control &set_title(const std::wstring&);
 	RECT get_rectangle() const;
 	Control &set_rectangle(const RECT&);
 	SIZE get_size() const;
@@ -74,5 +83,16 @@ public:
 	Control& add_control(Control& control);
 	Control& add_control(Control&& control);
 	void remove_control(Control& control);
+
+	Control& set_anchor(Anchor);
+	Anchor get_anchor() const;
+
+	bool has_anchor(Anchor) const;
+	Control& add_anchor(Anchor);
+	Control& remove_anchor(Anchor);
+
+	EventHandler<Control*, SIZE &> size_changed;
+private:
+	Anchor anchor;
 };
 

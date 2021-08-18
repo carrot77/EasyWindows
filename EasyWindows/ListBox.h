@@ -19,7 +19,7 @@ protected:
     virtual void create() override;
     DEEP_COPY_DECL(ListBox)
 private:
-    int max_item_length;
+    unsigned max_item_length;
     std::list<std::wstring> init_strings;
     std::list<std::wstring> selected_strings;
 };
