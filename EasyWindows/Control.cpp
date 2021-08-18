@@ -37,6 +37,7 @@ Control::Control(Control&& control) noexcept :
 	width(control.width),
 	height(control.height),
 	last_known_size(control.last_known_size),
+	size_changed(std::move(control.size_changed)),
 	anchor(control.anchor)
 {
 	if (parent) parent->add_control(*this);
