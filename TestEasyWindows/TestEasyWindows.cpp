@@ -49,6 +49,15 @@ int main()
 	eb.text_changed += [&window](EditBox&, std::wstring str) {
 		window.set_title(str);
 	};
+	ComboBox cb(ComboBox::ComboBoxStyles::DropDownList);
+	cb.add_list_item(L"L1").
+		add_list_item(L"L2").
+		add_list_item(L"L3").
+		set_text(L"Combobox").
+		set_rectangle({ 10, 300, 360, 360 });
+	cb.text_changed += [&window](ComboBox&, std::wstring str) {
+		window.set_title(str);
+	};
 	window.
 		add_control(std::move(Label().set_title(L"Label").set_rectangle({ 10,10,110, 60 }))).
 		add_control(button).
@@ -57,6 +66,7 @@ int main()
 			set_title(L"Kiscica").
 			set_location({10, 70}).
 			set_size({100, 60}))).
+		add_control(cb).
 		add_control(std::move(gb)).
 		add_control(lb).
 		add_control(eb).

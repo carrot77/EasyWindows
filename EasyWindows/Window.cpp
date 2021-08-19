@@ -2,10 +2,7 @@
 #include <set>
 #include <map>
 #include <iostream>
-#include "Label.h"
-#include "Button.h"
-#include "ListBox.h"
-#include "EditBox.h"
+#include "EasyWindows.h"
 
 std::set<std::wstring> registered_classes;
 
@@ -33,6 +30,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         Button* btn = dynamic_cast<Button*>(aktControl);
         ListBox* lst = dynamic_cast<ListBox*>(aktControl);
         EditBox* edt = dynamic_cast<EditBox*>(aktControl);
+        ComboBox* cbx = dynamic_cast<ComboBox*>(aktControl);
         if (btn) {
             switch (wmEvent)
             {
@@ -62,6 +60,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case EN_CHANGE:
                 handled = true;
                 edt->text_changed.Invoke(*edt, edt->get_text());
+                break;
+            default:
+                break;
+            }
+        }
+        else if (cbx) {
+            switch (wmEvent)
+            {
+            case CBN_EDITCHANGE:
+                handled = true;
+                cbx->text_changed.Invoke(*cbx, cbx->get_text());
+                break;
+            case CBN_SELCHANGE:
+                handled = true;
+                cbx->text_changed.Invoke(*cbx, cbx->get_list_selected_text());
                 break;
             default:
                 break;

@@ -22,6 +22,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="CheckBox_3State.cpp" />
+    <ClCompile Include="ComboBox.cpp" />
     <ClCompile Include="Control.cpp" />
     <ClCompile Include="EditBox.cpp" />
     <ClCompile Include="GroupBox.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="CheckBox.h" />
     <ClInclude Include="CheckBox_3State.h" />
+    <ClInclude Include="ComboBox.h" />
     <ClInclude Include="Control.h" />
     <ClInclude Include="EasyWindows.h" />
     <ClInclude Include="EditBox.h" />

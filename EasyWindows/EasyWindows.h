@@ -2,6 +2,7 @@
 
 #include "Button.h"
 #include "CheckBox.h"
+#include "ComboBox.h"
 #include "Control.h"
 #include "EditBox.h"
 #include "GroupBox.h"
