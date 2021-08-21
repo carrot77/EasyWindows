@@ -3,12 +3,12 @@
 #include <Windows.h>
 #include <string>
 #include "Control.h"
-#include "Label.h"
+#include "Panel.h"
 
 class Window : public Control
 {
 	friend LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	Label dummy;
+	Panel dummy;
 	Window(const Window&) = delete;
 protected:
 	void handle_size_changed(SIZE new_size) override;
@@ -21,5 +21,7 @@ public:
 	using Control::paint;
 	void show();
 	void run();
+	using Control::set_title;
+	using Control::get_title;
 };
 

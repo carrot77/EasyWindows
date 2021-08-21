@@ -8,5 +8,7 @@ protected:
     DEEP_COPY_DECL(GroupBox)
 public:
     GroupBox();
+    using Control::set_title;
+    using Control::get_title;
 };
 

@@ -11,5 +11,7 @@ public:
 	Button();
 	EventHandler<Button&> clicked;
 	Button& set_enabled(bool enabled = true);
+	using Control::set_title;
+	using Control::get_title;
 };
 

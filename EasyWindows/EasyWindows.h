@@ -8,5 +8,6 @@
 #include "GroupBox.h"
 #include "Label.h"
 #include "ListBox.h"
+#include "Panel.h"
 #include "RadioButton.h"
 #include "Window.h"

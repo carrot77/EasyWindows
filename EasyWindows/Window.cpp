@@ -109,7 +109,6 @@ Window::Window(const std::wstring& class_name) : Control(0) {
     this->class_name = class_name;
     this->window_style = WS_OVERLAPPEDWINDOW;
     dummy.set_location({ 0,0 });
-    dummy.window_style = WS_VISIBLE | WS_CHILD | SS_LEFT;
     add_control(dummy);
 }
 

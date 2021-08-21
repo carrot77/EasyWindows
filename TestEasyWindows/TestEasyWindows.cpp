@@ -33,11 +33,11 @@ int main()
 	Button move_test;
 	move_test.clicked += [](Button& btn) {btn.set_title(L"Miau"); };
 	GroupBox gb;
-	gb.set_location({ 10,140 }).set_size({ 210, 120 }).set_title(L"Group1");
-	gb.add_control(std::move(RadioButton().set_rectangle({ 10,20,100,40 }).set_title(L"RB1"))).
-		add_control(std::move(RadioButton().set_rectangle({ 110,20,200,40 }).set_title(L"RB2"))).
-		add_control(std::move(RadioButton().set_rectangle({ 10,50,100,70 }).set_title(L"RB3"))).
-		add_control(std::move(RadioButton().set_rectangle({ 110,50,200,70 }).set_title(L"RB4")));
+	gb.set_title(L"Group1").set_location({ 10,140 }).set_size({ 210, 120 });
+	gb.add_control(std::move(RadioButton().set_title(L"RB1").set_rectangle({ 10,20,100,40 }))).
+		add_control(std::move(RadioButton().set_title(L"RB2").set_rectangle({ 110,20,200,40 }))).
+		add_control(std::move(RadioButton().set_title(L"RB3").set_rectangle({ 10,50,100,70 }))).
+		add_control(std::move(RadioButton().set_title(L"RB4").set_rectangle({ 110,50,200,70 })));
 	ListBox lb(ListBox::SelectionMode::MultipleSelect, false);
 	lb.set_location({ 230,140 }).set_size({ 210, 120 });
 	lb.add_string(L"elso").add_string(L"masodik").add_string(L"harmadik");
@@ -70,10 +70,10 @@ int main()
 		add_control(std::move(gb)).
 		add_control(lb).
 		add_control(eb).
-		add_control(std::move(RadioButton().set_rectangle({ 340,10,385,30 }).set_title(L"RB1"))).
-		add_control(std::move(RadioButton().set_rectangle({ 390,10,450,30 }).set_title(L"RB2"))).
-		add_control(std::move(RadioButton().set_rectangle({ 340,40,385,60 }).set_title(L"RB3"))).
-		add_control(std::move(RadioButton().set_rectangle({ 390,40,450,60 }).set_title(L"RB4")));
+		add_control(std::move(RadioButton().set_title(L"RB1")).set_rectangle({ 340,10,385,30 })).
+		add_control(std::move(RadioButton().set_title(L"RB2")).set_rectangle({ 390,10,450,30 })).
+		add_control(std::move(RadioButton().set_title(L"RB3")).set_rectangle({ 340,40,385,60 })).
+		add_control(std::move(RadioButton().set_title(L"RB4")).set_rectangle({ 390,40,450,60 }));
 	window.show();
 	window.run();
 }

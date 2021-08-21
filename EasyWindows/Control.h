@@ -36,6 +36,38 @@ public:
 	}
 };
 
+template <class T>
+class Observable {
+	T value;
+public:
+	EventHandler<const T& oldValue, const T& newValue> changed;
+	const T& operator T() const {
+		return value;
+	}
+	Observable<T>& operator =(const T& newValue) {
+		if (value != newValue) {
+			T tmp = value;
+			value = newValue;
+			changed.Invoke(tmp, value);
+		}
+		return *this;
+	}
+};
+
+template <class T, size_t K>
+struct ObservableArray : std::array<T,K> {
+	EventHandler<const ObservableArray<T, K>&> changed;
+	const T& operator [](size_t ind) const {
+		return std::array<T, K>::operator [](ind);
+	}
+	ObservableArray& set(size_t ind, const T& val) {
+		if (val != std::array<T, K>::operator [](ind)) {
+			std::array<T, K>::operator [](ind) = val;
+			changed.Invoke(*this);
+		}
+	}
+};
+
 class Control
 {
 	static unsigned id_counter;
@@ -58,6 +90,8 @@ protected:
 	static Control* get_control_by_id(unsigned id);
 	virtual Control* deep_move(Control &&control) noexcept;
 	virtual void handle_size_changed(SIZE new_size);
+	const std::wstring& get_title() const;
+	virtual Control& set_title(const std::wstring&);
 public:
 	enum Anchor {
 		Anchor_Top = 1,
@@ -68,8 +102,6 @@ public:
 	};
 	const unsigned& get_id() const;
 	const std::list<Control*> &get_controls() const;
-	const std::wstring &get_title() const;
-	virtual Control &set_title(const std::wstring&);
 	RECT get_rectangle() const;
 	Control &set_rectangle(const RECT&);
 	SIZE get_size() const;

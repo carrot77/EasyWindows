@@ -5,8 +5,9 @@
 struct Label : public Control
 {
 	Label();
+	using Control::set_title;
+	using Control::get_title;
 protected:
-	friend class Window;
 	DEEP_COPY_DECL(Label)
 };
 
