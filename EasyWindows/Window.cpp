@@ -109,7 +109,7 @@ Window::Window(const std::wstring& class_name) : Control(0) {
     this->class_name = class_name;
     this->window_style = WS_OVERLAPPEDWINDOW;
     dummy.set_location({ 0,0 });
-    add_control(dummy);
+    Control::add_control(dummy);
 }
 
 Window::Window(Window&& window) noexcept : 
@@ -152,4 +152,18 @@ void Window::run() {
 void Window::handle_size_changed(SIZE new_size) {
     dummy.set_size(new_size);
     Control::handle_size_changed(new_size);
+}
+
+Control& Window::add_control(Control& control) {
+    dummy.add_control(control);
+    return *this;
+}
+
+Control& Window::add_control(Control&& control) {
+    dummy.add_control(std::move(control));
+    return *this;
+}
+
+void Window::remove_control(Control& control) {
+    dummy.remove_control(control);
 }

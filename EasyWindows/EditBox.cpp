@@ -32,7 +32,7 @@ std::wstring EditBox::get_text() const{
 	if (hwnd) {
 		int len = Edit_GetTextLength(hwnd);
 		std::vector<wchar_t> buffer(len+2);
-		Edit_GetText(hwnd, buffer.data(), buffer.size());
+		Edit_GetText(hwnd, buffer.data(), (int)buffer.size());
 		return buffer.data();
 	}else{
 		return text;

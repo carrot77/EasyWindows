@@ -40,7 +40,10 @@ Control::Control(Control&& control) noexcept :
 	size_changed(std::move(control.size_changed)),
 	anchor(control.anchor)
 {
-	if (parent) parent->add_control(*this);
+	if (parent) {
+		parent->add_control(*this);
+		parent->control_moved(&control, this);
+	}
 	if (std::find(tmp_controls.begin(), tmp_controls.end(), &control) != tmp_controls.end()) {
 		tmp_controls.push_back(this);
 	}
@@ -94,7 +97,10 @@ void Control::remove_control(Control& control) {
 }
 
 Control::~Control() {
-	if (parent) parent->remove_control(*this);
+	if (parent) {
+		parent->control_deleted(this);
+		parent->remove_control(*this);
+	}
 	all_controls.erase(id);
 	tmp_controls.remove(this);
 	if (hwnd) DestroyWindow(hwnd);
@@ -278,3 +284,7 @@ Control& Control::remove_anchor(Anchor) {
 	this->anchor = static_cast<Anchor>(this->anchor & (anchor ^ Anchor_All));
 	return *this;
 }
+
+void Control::control_deleted(Control *_old){}
+
+void Control::control_moved(Control* _old, Control* _new) {}

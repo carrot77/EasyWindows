@@ -36,7 +36,7 @@ void ListBox::create() {
 }
 
 ListBox& ListBox::add_string(const std::wstring &str) {
-	if (str.size() > max_item_length) max_item_length = str.size();
+	if (str.size() > max_item_length) max_item_length = (unsigned)str.size();
 	if (hwnd) {
 		ListBox_AddString(hwnd, str.c_str());
 	}

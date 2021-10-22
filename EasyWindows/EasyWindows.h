@@ -10,4 +10,5 @@
 #include "ListBox.h"
 #include "Panel.h"
 #include "RadioButton.h"
+#include "TableLayoutPanel.h"
 #include "Window.h"

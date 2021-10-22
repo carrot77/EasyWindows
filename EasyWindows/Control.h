@@ -40,8 +40,8 @@ template <class T>
 class Observable {
 	T value;
 public:
-	EventHandler<const T& oldValue, const T& newValue> changed;
-	const T& operator T() const {
+	EventHandler<const T&, const T&> changed; // first the old, second the new value
+	operator T() const {
 		return value;
 	}
 	Observable<T>& operator =(const T& newValue) {
@@ -66,6 +66,7 @@ struct ObservableArray : std::array<T,K> {
 			changed.Invoke(*this);
 		}
 	}
+	ObservableArray(const std::array<T,K> &base) : std::array<T,K>(base){}
 };
 
 class Control
@@ -78,7 +79,6 @@ protected:
 	Control();
 	Control(Control&&) noexcept;
 	Control(unsigned id);
-	virtual ~Control();
 	std::wstring class_name;
 	uint32_t window_style;
 	EventHandler<Control*, HDC, PAINTSTRUCT&> paint;
@@ -92,7 +92,10 @@ protected:
 	virtual void handle_size_changed(SIZE new_size);
 	const std::wstring& get_title() const;
 	virtual Control& set_title(const std::wstring&);
+	virtual void control_moved(Control *_old, Control *_new);
+	virtual void control_deleted(Control *_old);
 public:
+	virtual ~Control();
 	enum Anchor {
 		Anchor_Top = 1,
 		Anchor_Left = Anchor_Top << 1,
@@ -111,10 +114,9 @@ public:
 
 	const HWND& get_hwnd() const;
 
-
-	Control& add_control(Control& control);
-	Control& add_control(Control&& control);
-	void remove_control(Control& control);
+	virtual Control& add_control(Control& control);
+	virtual Control& add_control(Control&& control);
+	virtual void remove_control(Control& control);
 
 	Control& set_anchor(Anchor);
 	Anchor get_anchor() const;

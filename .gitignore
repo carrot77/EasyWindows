@@ -12,3 +12,5 @@
 /TestEasyWindows/TestEasyWindows.vcxproj.user
 /EasyWindows/x64/Debug
 /TestEasyWindows/x64/Debug
+/.vscode
+/x64/Debug

@@ -68,7 +68,7 @@ std::wstring ComboBox::get_text() const
 {
     if (hwnd) {
         std::vector<wchar_t> buffer(ComboBox_GetTextLength(hwnd) + 2);
-        ComboBox_GetText(hwnd, buffer.data(), buffer.size());
+        ComboBox_GetText(hwnd, buffer.data(), (int)buffer.size());
         return buffer.data();
     }
     else {

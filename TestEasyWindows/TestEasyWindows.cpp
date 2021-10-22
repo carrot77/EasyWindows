@@ -45,7 +45,11 @@ int main()
 		window.set_title(str);
 	};
 	EditBox eb(false, true, false);
-	eb.set_text(L"test\r\ntext").add_anchor(Control::Anchor_Right).set_location({460, 10}).set_size({120, 100});
+	eb
+		.set_text(L"test\r\ntext")
+		.add_anchor(Control::Anchor_Right)
+		.set_location({460, 10})
+		.set_size({120, 100});
 	eb.text_changed += [&window](EditBox&, std::wstring str) {
 		window.set_title(str);
 	};
@@ -58,22 +62,84 @@ int main()
 	cb.text_changed += [&window](ComboBox&, std::wstring str) {
 		window.set_title(str);
 	};
-	window.
-		add_control(std::move(Label().set_title(L"Label").set_rectangle({ 10,10,110, 60 }))).
-		add_control(button).
-		add_control(button2).
-		add_control(std::move(move_test.
-			set_title(L"Kiscica").
-			set_location({10, 70}).
-			set_size({100, 60}))).
-		add_control(cb).
-		add_control(std::move(gb)).
-		add_control(lb).
-		add_control(eb).
-		add_control(std::move(RadioButton().set_title(L"RB1")).set_rectangle({ 340,10,385,30 })).
-		add_control(std::move(RadioButton().set_title(L"RB2")).set_rectangle({ 390,10,450,30 })).
-		add_control(std::move(RadioButton().set_title(L"RB3")).set_rectangle({ 340,40,385,60 })).
-		add_control(std::move(RadioButton().set_title(L"RB4")).set_rectangle({ 390,40,450,60 }));
+	TableLayoutPanel<3, 4> tp(
+		{
+			ColumnDefinition{SizeDefinition::Type::Percent, 50},
+			ColumnDefinition{SizeDefinition::Type::Absolute, 100},
+			ColumnDefinition{SizeDefinition::Type::Percent, 50},
+		}, {
+			RowDefinition{SizeDefinition::Type::Percent, 50},
+			RowDefinition{SizeDefinition::Type::Absolute, 100},
+			RowDefinition{SizeDefinition::Type::Percent, 50},
+			RowDefinition{SizeDefinition::Type::Percent, 50},
+		}
+	);
+	tp
+		.add_control(std::move(Label()
+			.set_title(L"Label1")
+			.set_rectangle({0,0,100,100})), 0, 0)
+		.add_control(std::move(Label()
+			.set_title(L"Label2")
+			.set_rectangle({ 0,0,100,100 })), 0, 1)
+		.add_control(std::move(Label()
+			.set_title(L"Label3")
+			.set_rectangle({ 0,0,100,100 })), 0, 2)
+		.add_control(std::move(Label()
+			.set_title(L"Label4")
+			.set_rectangle({ 0,0,100,100 })), 0, 3)
+		.add_control(std::move(Label()
+			.set_title(L"Label5")
+			.set_rectangle({ 0,0,100,100 })), 1, 0)
+		.add_control(std::move(Label()
+			.set_title(L"Label6")
+			.set_rectangle({ 0,0,100,100 })), 1, 1)
+		.add_control(std::move(Label()
+			.set_title(L"Label7")
+			.set_rectangle({ 0,0,100,100 })), 1, 2)
+		.add_control(std::move(Label()
+			.set_title(L"Label8")
+			.set_rectangle({ 0,0,100,100 })), 1, 3)
+		.add_control(std::move(Label()
+			.set_title(L"Label9")
+			.set_rectangle({ 0,0,100,100 })), 2, 0)
+		.add_control(std::move(Label()
+			.set_title(L"LabelA")
+			.set_rectangle({ 0,0,100,100 })), 2, 1)
+		.add_control(std::move(Label()
+			.set_title(L"LabelB")
+			.set_rectangle({ 0,0,100,100 })), 2, 2)
+		.add_control(std::move(Label()
+			.set_title(L"LabelC")
+			.set_rectangle({ 0,0,100,100 })), 2, 3)
+		.set_rectangle({ 210,400,490,490 });
+	window
+		.add_control(tp)
+		.add_control(std::move(Label()
+			.set_title(L"Label")
+			.set_rectangle({ 10,10,110, 60 })))
+		.add_control(button)
+		.add_control(button2)
+		.add_control(std::move(move_test
+			.set_title(L"Kiscica")
+			.set_location({ 10, 70 })
+			.set_size({ 100, 60 })))
+		.add_control(cb)
+		.add_control(std::move(gb))
+		.add_control(lb)
+		.add_control(eb)
+		.add_control(std::move(RadioButton()
+			.set_title(L"RB5")
+			.set_rectangle({ 10, 400, 100, 440 })))
+		.add_control(std::move(RadioButton()
+			.set_title(L"RB6")
+			.set_rectangle({ 110,400,190,440 })))
+		.add_control(std::move(RadioButton()
+			.set_title(L"RB7")
+			.set_rectangle({ 10,450,100,490 })))
+		.add_control(std::move(RadioButton()
+			.set_title(L"RB8")
+			.set_rectangle({ 110,450,190,490 })))
+		;
 	window.show();
 	window.run();
 }

@@ -18,6 +18,11 @@ protected:
 	}
 public:
 	Window(const std::wstring &class_name = L"MyGuiApp");
+
+	virtual Control& add_control(Control& control) override;
+	virtual Control& add_control(Control&& control) override;
+	virtual void remove_control(Control& control) override;
+
 	using Control::paint;
 	void show();
 	void run();
