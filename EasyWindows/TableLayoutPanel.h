@@ -18,7 +18,7 @@ class TableLayoutPanel : public Panel {
 	ObservableArray<RowDefinition, R> rows;
 	std::array<Control*, C * R> sub_items;
 	Control* &get_item(int col, int row) {
-		return sub_items[col * R + row];
+		return sub_items[row * C + col];
 	}
 	template <class T, size_t N>
 	std::array<int, N>distribute(ObservableArray<T,N>& items, int size) {
@@ -105,19 +105,21 @@ public:
 	{
 	}
 	TableLayoutPanel& add_control(Control& c, int pos_x, int pos_y) {
-		if (get_item(pos_x, pos_y)) {
-			delete get_item(pos_x, pos_y);
+		auto &item = get_item(pos_x, pos_y);
+		if (item) {
+			delete item;
 		}
-		get_item(pos_x, pos_y) = &c;
+		item = &c;
 		Control::add_control(c);
 		return *this;
 	}
 	TableLayoutPanel& add_control(Control&& c, int pos_x, int pos_y) {
-		if (get_item(pos_x, pos_y)) {
-			delete get_item(pos_x, pos_y);
+		auto& item = get_item(pos_x, pos_y);
+		if (item) {
+			delete item;
 		}
-		get_item(pos_x, pos_y) = &c;
 		Control::add_control(std::move(c));
+		item = (*Control::controls.rbegin());
 		return *this;
 	}
 	void clear_control(int pos_x, int pos_y, bool _delete = true) {

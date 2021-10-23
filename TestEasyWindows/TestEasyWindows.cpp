@@ -69,48 +69,24 @@ int main()
 			ColumnDefinition{SizeDefinition::Type::Percent, 50},
 		}, {
 			RowDefinition{SizeDefinition::Type::Percent, 50},
-			RowDefinition{SizeDefinition::Type::Absolute, 100},
+			RowDefinition{SizeDefinition::Type::Percent, 50},
 			RowDefinition{SizeDefinition::Type::Percent, 50},
 			RowDefinition{SizeDefinition::Type::Percent, 50},
 		}
 	);
 	tp
-		.add_control(std::move(Label()
-			.set_title(L"Label1")
-			.set_rectangle({0,0,100,100})), 0, 0)
-		.add_control(std::move(Label()
-			.set_title(L"Label2")
-			.set_rectangle({ 0,0,100,100 })), 0, 1)
-		.add_control(std::move(Label()
-			.set_title(L"Label3")
-			.set_rectangle({ 0,0,100,100 })), 0, 2)
-		.add_control(std::move(Label()
-			.set_title(L"Label4")
-			.set_rectangle({ 0,0,100,100 })), 0, 3)
-		.add_control(std::move(Label()
-			.set_title(L"Label5")
-			.set_rectangle({ 0,0,100,100 })), 1, 0)
-		.add_control(std::move(Label()
-			.set_title(L"Label6")
-			.set_rectangle({ 0,0,100,100 })), 1, 1)
-		.add_control(std::move(Label()
-			.set_title(L"Label7")
-			.set_rectangle({ 0,0,100,100 })), 1, 2)
-		.add_control(std::move(Label()
-			.set_title(L"Label8")
-			.set_rectangle({ 0,0,100,100 })), 1, 3)
-		.add_control(std::move(Label()
-			.set_title(L"Label9")
-			.set_rectangle({ 0,0,100,100 })), 2, 0)
-		.add_control(std::move(Label()
-			.set_title(L"LabelA")
-			.set_rectangle({ 0,0,100,100 })), 2, 1)
-		.add_control(std::move(Label()
-			.set_title(L"LabelB")
-			.set_rectangle({ 0,0,100,100 })), 2, 2)
-		.add_control(std::move(Label()
-			.set_title(L"LabelC")
-			.set_rectangle({ 0,0,100,100 })), 2, 3)
+		.add_control(std::move(Label().set_title(L"Label1")), 0, 0)
+		.add_control(std::move(Label().set_title(L"Label2")), 0, 1)
+		.add_control(std::move(Label().set_title(L"Label3")), 0, 2)
+		.add_control(std::move(Label().set_title(L"Label4")), 0, 3)
+		.add_control(std::move(Label().set_title(L"Label5")), 1, 0)
+		.add_control(std::move(Label().set_title(L"Label6")), 1, 1)
+		.add_control(std::move(Label().set_title(L"Label7")), 1, 2)
+		.add_control(std::move(Label().set_title(L"Label8")), 1, 3)
+		.add_control(std::move(Label().set_title(L"Label9")), 2, 0)
+		.add_control(std::move(Label().set_title(L"LabelA")), 2, 1)
+		.add_control(std::move(Label().set_title(L"LabelB")), 2, 2)
+		.add_control(std::move(Label().set_title(L"LabelC")), 2, 3)
 		.set_rectangle({ 210,400,490,490 });
 	window
 		.add_control(tp)
@@ -143,14 +119,3 @@ int main()
 	window.show();
 	window.run();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
